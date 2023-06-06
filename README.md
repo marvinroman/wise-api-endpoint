@@ -80,20 +80,21 @@ The following response codes may be encountered during the authentication proces
 - 500 Internal Server Error: An error occurred on the server while processing the authentication request.
 
 
-## GET Method (action=fetchTasks)
+## GET Method (query=tasks)
 
-Endpoint:
+### Endpoint
+
 ```
-GET /tasks?action=fetchTasks
+GET /?query=tasks
 ```
 
-Description:
+### Description:
 This API endpoint is used to retrieve task information. By making a GET request to this endpoint with the specified action parameter, you will receive a JSON response containing details about the tasks.
 
-Parameters:
+### Parameters:
 - `action` (required, string): The action parameter must be set to "fetchTasks".
 
-Response:
+### Response:
 The response to the API request will be a JSON object with the following structure:
 
 ```json
@@ -103,6 +104,7 @@ The response to the API request will be a JSON object with the following structu
         "id": 1234,
         "name": "Local food distributor"
     },
+    "type": "Delivery",
     "address": {
         "addr1": "1234 Main St",
         "addr2": "",
@@ -139,11 +141,12 @@ The response to the API request will be a JSON object with the following structu
 }
 ```
 
-Properties:
+### Properties:
 - `shipdate` (string): The date of shipment in the format "YYYY-MM-DD".
-- `entity` (object): Information about the entity associated with the task.
+- `entity` (object): Information about the entity associated with the task this wil be an Agency for distributions and Vendor on pickups.
   - `id` (number): The ID of the entity.
   - `name` (string): The name of the entity.
+- `type` (string): The type of route, Delivery or Pickup.  
 - `address` (object): The address associated with the task.
   - `addr1` (string): Address line 1.
   - `addr2` (string): Address line 2.
@@ -169,12 +172,12 @@ Properties:
 
 Note: Replace "YYYY-MM-DD" and other placeholder values with the actual data in the response.
 
-Example Request:
+### Example Request:
 ```
-GET /tasks?action=fetchTasks
+GET /tasks?query=tasks
 ```
 
-Example Response:
+### Example Response:
 ```json
 {
     "shipdate": "2023-06-01",
@@ -182,6 +185,7 @@ Example Response:
         "id": 1234,
         "name": "Local food distributor"
     },
+    "type": "Delivery",
     "address": {
         "addr1": "1234 Main St",
         "addr2": "",
@@ -218,7 +222,59 @@ Example Response:
 }
 ```
 
-Response Status Codes:
+### Response Status Codes:
 - 200 OK: The request was successful, and the task information is included in the response.
 - 400 Bad Request: The request is missing the required parameters or contains invalid data.
 - 500 Internal Server Error: An error occurred on the server while processing the request.
+
+
+## GET Method (query=drivers)
+
+### Endpoint
+
+```
+GET /?query=drivers
+```
+
+### Description
+
+Retrieves a list of drivers based on the specified query parameter.
+
+### Parameters
+
+- `query` (string, required): The query parameter to return drivers.
+
+### Response
+
+The response will be a JSON object with the following properties:
+
+- `id` (number): The internalid of the driver's employee record.
+- `name` (string): The name of the driver.
+- `available_routes` (array): An array of available routes for the driver.
+
+### Example Response:
+
+```json
+{
+    "id": 1234,
+    "name": "Rob Bob",
+    "available_routes": [
+        "DC",
+        "VA"
+    ]
+}
+```
+
+### Example Request
+
+```
+GET /?query=drivers
+```
+
+### Response Status Codes
+
+- 200 OK: The request was successful, and the drivers matching the query parameter are included in the response.
+- 400 Bad Request: The request is missing the required query parameter or contains invalid data.
+- 500 Internal Server Error: An error occurred on the server while processing the request.
+
+
