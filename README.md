@@ -95,54 +95,7 @@ This API endpoint is used to retrieve task information. By making a GET request 
 - `action` (required, string): The action parameter must be set to "fetchTasks".
 
 ### Response:
-The response to the API request will be a JSON object with the following structure:
-
-```json
-{
-    "shipdate": "2023-02-04",
-    "entity": {
-        "id": 1234,
-        "name": "Local food distributor"
-    },
-    "type": "Delivery",
-    "address": {
-        "addr1": "1234 Main St",
-        "addr2": "",
-        "city": "Main City",
-        "state": "VA",
-        "zip": "12345"
-    },
-    "contact": {
-        "phone": "123-123-1234",
-        "email": "user@company.com",
-        "name": "Jane Lane"
-    },
-    "start": "2023-02-04T08:00:00.000Z",
-    "end": "2023-02-04T10:00:00.000Z",
-    "weight": 1100,
-    "transaction": {
-        "id": 123789,
-        "display": "SO12345"
-    },
-    "warehouse": "DC",
-    "memo": "Ship Date: 02/04/2023 8:00 am",
-    "delivery_message": "Please use side door.",
-    "inventory": [
-        {
-            "id": 1234,
-            "tracking": "123B-984U-E573",
-            "storage_type": "refrigerated",
-            "weight": 500
-        },
-        {
-            "id": 1235,
-            "tracking": "123B-984U-E574",
-            "storage_type": "dry",
-            "weight": 600
-        }
-    ]
-}
-```
+The response to the API request will be a JSON object.
 
 ### Properties:
 - `shipdate` (string): The date of shipment in the format "YYYY-MM-DD".
