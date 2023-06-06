@@ -1,5 +1,7 @@
 # Wise API Endpoint
 
+The API provides functionality to interact with Wise Systems routing software, including driver information, inventory details, departure and arrival timestamps, signature images, related images, and delivery status.
+
 ## Token Authentication for NetSuite RESTlet
 
 Token-based authentication is used to authenticate and authorize requests made to a NetSuite RESTlet. This authentication mechanism involves generating an access token and including it in the request headers to authenticate the API calls.
