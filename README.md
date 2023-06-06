@@ -99,7 +99,7 @@ The response to the API request will be a JSON object with the following structu
 
 ```json
 {
-    "shipdate": "YYYY-MM-DD",
+    "shipdate": "2023-02-04",
     "entity": {
         "id": 1234,
         "name": "Local food distributor"
@@ -128,11 +128,13 @@ The response to the API request will be a JSON object with the following structu
     "delivery_message": "Please use side door.",
     "inventory": [
         {
+            "id": 1234,
             "tracking": "123B-984U-E573",
             "storage_type": "refrigerated",
             "weight": 500
         },
         {
+            "id": 1235,
             "tracking": "123B-984U-E574",
             "storage_type": "dry",
             "weight": 600
@@ -166,6 +168,7 @@ The response to the API request will be a JSON object with the following structu
 - `memo` (string): A memo associated with the task.
 - `delivery_message` (string): A delivery message for the task.
 - `inventory` (array): An array of inventory items associated with the task.
+  - `id` (number): The internal id of the record that tracks pallets.  
   - `tracking` (string): The tracking number of the inventory item.
   - `storage_type` (string): The type of storage for the inventory item.
   - `weight` (number): The weight of the inventory item in lbs.
@@ -278,3 +281,48 @@ GET /?query=drivers
 - 500 Internal Server Error: An error occurred on the server while processing the request.
 
 
+## PUT
+
+### Endpoint
+
+```
+PUT /?inventory={id}
+```
+
+Replace `{id}` with the identifier of the inventory item that the status is updating.
+
+
+### Description
+
+Updates an existing delivery record with the provided data.
+
+### Request Body
+
+The request body should be a JSON object with the following properties:
+
+- `driver` (number): The identifier of the driver responsible for the delivery.
+- `departure` (string): The departure timestamp in ISO 8601 format.
+- `arrival` (string): The arrival timestamp in ISO 8601 format.
+- `signature` (string): The URL of the signature image for the delivery.
+- `image` (string): The URL of an image related to the delivery.
+- `status` (number): The status of the delivery (0: Unassigned, 1: Assigned, 2: In Progress, 3: Completed, 4: Failed).
+
+### Example Request Body:
+
+```json
+{
+    "driver": 5678,
+    "departure": "2023-02-04T10:00:00.000Z",
+    "arrival": "2023-02-04T12:00:00.000Z",
+    "signature": "https://s3.amazon.com/567zs567",
+    "image": "https://s3.amazon.com/567zs568",
+    "status": 2
+}
+```
+
+### Response Status Codes
+
+- 200 OK: The delivery record was successfully updated.
+- 400 Bad Request: The request body is missing or contains invalid data.
+- 404 Not Found: The specified delivery does not exist.
+- 500 Internal Server Error: An error occurred on the server while processing the request.
