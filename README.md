@@ -1,8 +1,86 @@
 # Wise API Endpoint
 
-## Authentication
+## Token Authentication for NetSuite RESTlet
 
-API Documentation - GET Method (action=fetchTasks)
+Token-based authentication is used to authenticate and authorize requests made to a NetSuite RESTlet. This authentication mechanism involves generating an access token and including it in the request headers to authenticate the API calls.
+
+### Prerequisites
+
+Before using token authentication, ensure you have the following:
+
+- NetSuite account with RESTlet access enabled
+- Valid API credentials (email, password, account ID)
+- RESTlet script deployed in your NetSuite account
+
+### Authentication Flow
+
+The token authentication flow consists of the following steps:
+
+1. Generate an Access Token: To obtain an access token, you need to call the NetSuite Token-Based Authentication API with your API credentials. This API request will return an access token, which is a long-lived token that you can use to authenticate subsequent requests.
+
+2. Include the Access Token in Request Headers: After obtaining the access token, you should include it in the `Authorization` header of your RESTlet API requests. The header should be formatted as follows:
+
+```
+Authorization: Bearer <access_token>
+```
+
+Replace `<access_token>` with the actual access token value obtained in step 1.
+
+### Example
+
+Here's an example of how to authenticate using token authentication for a NetSuite RESTlet:
+
+1. Generate an Access Token:
+
+Make a `POST` request to the NetSuite Token-Based Authentication API endpoint:
+
+```
+POST /services/rest/auth/oauth2/v1/token
+```
+
+The request body should include the following parameters:
+
+- `grant_type`: Set this to `password`.
+- `clientId`: Your NetSuite integration's client ID.
+- `clientSecret`: Your NetSuite integration's client secret.
+- `username`: Your NetSuite account username (email).
+- `password`: Your NetSuite account password.
+- `scope`: Set this to `restlets`.
+
+The response will include an access token that you'll use in subsequent API requests.
+
+2. Include the Access Token in Request Headers:
+
+For each RESTlet API request you make, include the access token in the `Authorization` header:
+
+```
+GET /services/rest/record/v1/customer/1234
+Authorization: Bearer <access_token>
+```
+
+Replace `<access_token>` with the actual access token value obtained in step 1.
+
+### Error Handling
+
+If the access token expires or becomes invalid, you'll receive an HTTP `401 Unauthorized` response. In such cases, repeat the authentication flow to obtain a new access token and update your requests with the new token.
+
+### Security Considerations
+
+- Keep your API credentials (client ID, client secret, account credentials) secure and avoid exposing them in client-side applications.
+- Protect the access token by using secure channels (HTTPS) and not including it in publicly accessible code or repositories.
+- Consider using token expiration and refresh mechanisms to ensure the security of your authentication flow.
+
+### Response Codes
+
+The following response codes may be encountered during the authentication process:
+
+- 200 OK: The authentication request was successful, and an access token was obtained.
+- 401 Unauthorized: The access token is invalid or has expired. Repeat the authentication flow to obtain a new token.
+- 400 Bad Request: The authentication request was malformed or contained invalid parameters.
+- 500 Internal Server Error: An error occurred on the server while processing the authentication request.
+
+
+## GET Method (action=fetchTasks)
 
 Endpoint:
 ```
