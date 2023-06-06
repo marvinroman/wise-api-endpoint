@@ -124,6 +124,7 @@ The response to the API request will be a JSON object with the following structu
         "id": 123789,
         "display": "SO12345"
     },
+    "warehouse": "DC",
     "memo": "Ship Date: 02/04/2023 8:00 am",
     "delivery_message": "Please use side door.",
     "inventory": [
@@ -165,6 +166,7 @@ The response to the API request will be a JSON object with the following structu
 - `transaction` (object): Information about the transaction related to the task.
   - `id` (number): The ID of the transaction.
   - `display` (string): A display string for the transaction.
+- `warehouse` (string): String representation of warehouse the route is related to.  
 - `memo` (string): A memo associated with the task.
 - `delivery_message` (string): A delivery message for the task.
 - `inventory` (array): An array of inventory items associated with the task.
@@ -208,6 +210,7 @@ GET /tasks?query=tasks
         "id": 123789,
         "display": "SO12345"
     },
+    "warehouse": "DC",
     "memo": "Ship Date: 02/04/2023 8:00 am",
     "delivery_message": "Please use side door.",
     "inventory": [
