@@ -2,75 +2,80 @@
 
 The API provides functionality to interact with Wise Systems routing software, including driver information, inventory details, departure and arrival timestamps, signature images, related images, and delivery status.
 
-## Token Authentication for NetSuite RESTlet
+## OAuth 2.0 Client Credentials Flow
 
-Token-based authentication is used to authenticate and authorize requests made to a NetSuite RESTlet. This authentication mechanism involves generating an access token and including it in the request headers to authenticate the API calls.
+You can use the client credentials flow with OAuth 2.0. The client credentials flow is machine-to-machine and does not require any user interaction. Administrators and users with the OAuth 2.0 Authorized Applications Management permission can set up the flow, upload and revoke certificates for applications on the OAuth 2.0 Client Credentials (M2M) Setup page.
 
-### Prerequisites
+The OAuth 2.0 client credentials flow consists of a POST request to the token endpoint and a system response containing an access token.
 
-Before using token authentication, ensure you have the following:
+### POST Request to the Token Endpoint and the Access Token Response
 
-- NetSuite account with RESTlet access enabled
-- Valid API credentials (email, password, account ID)
-- RESTlet script deployed in your NetSuite account
+The client credentials flow starts when the application sends a POST request to the token endpoint.
 
-### Authentication Flow
-
-The token authentication flow consists of the following steps:
-
-1. Generate an Access Token: To obtain an access token, you need to call the NetSuite Token-Based Authentication API with your API credentials. This API request will return an access token, which is a long-lived token that you can use to authenticate subsequent requests.
-
-2. Include the Access Token in Request Headers: After obtaining the access token, you should include it in the `Authorization` header of your RESTlet API requests. The header should be formatted as follows:
+The format of the URL is:
 
 ```
-Authorization: Bearer <access_token>
+https://<accountID>.suitetalk.api.netsuite.com/services/rest/auth/oauth2/v1/token
 ```
 
-Replace `<access_token>` with the actual access token value obtained in step 1.
+where `<accountID>` represents your NetSuite account ID.
 
-### Example
+### POST Request Parameters
 
-Here's an example of how to authenticate using token authentication for a NetSuite RESTlet:
+| Request Parameter | Description |
+| ------- | -------- | 
+| `grant_type` | The value of the `grant_type` parameter is always `client_credentials`. |
+| `client_assertion_type` | The value of the `client_assertion_type` parameter is always `urn:ietf:params:oauth:client-assertion-type:jwt-bearer`. |
+| `client_assertion` | The value of the `client_assertion` parameter is a JWT bearer token. The token is signed with the private part of the certificate used for mapping of the application. | 
 
-1. Generate an Access Token:
+The following example provides a sample POST request:
 
-Make a `POST` request to the NetSuite Token-Based Authentication API endpoint:
+```bash
+POST /services/rest/auth/oauth2/v1/token HTTP/1.1
+Host: <accountID>.suitetalk.api.netsuite.com
+Content-Type: application/x-www-form-urlencoded
 
-```
-POST /services/rest/auth/oauth2/v1/token
-```
-
-The request body should include the following parameters:
-
-- `grant_type`: Set this to `password`.
-- `clientId`: Your NetSuite integration's client ID.
-- `clientSecret`: Your NetSuite integration's client secret.
-- `username`: Your NetSuite account username (email).
-- `password`: Your NetSuite account password.
-- `scope`: Set this to `restlets`.
-
-The response will include an access token that you'll use in subsequent API requests.
-
-2. Include the Access Token in Request Headers:
-
-For each RESTlet API request you make, include the access token in the `Authorization` header:
-
-```
-GET /services/rest/record/v1/customer/1234
-Authorization: Bearer <access_token>
+grant_type=client_credentials&client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer&client_assertion=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiIxYzM0M2E3MTZjMWRjZWI2MGU3ZmMxNDlmYTY3MzU5MjllZjc3ZDI4ZmUxNjI5M2Y4OTI5NzZkZGU3ZDhlM2UyIiwic2NvcGUiOlsicmVzdGxldHMiLCAicmVzdF93ZWJzZXJ2aWNlcyJdLCJhdWQiOiJodHRwczovL3J1bmJveC5jb3JwLm5ldHN1aXRlLmNvbS9zZXJ2aWNlcy9yZXN0L2F1dGgvb2F1dGgyL3YxL3Rva2VuIiwiZXhwIjoxNjI3OTA5MzAzLCJpYXQiOjE2Mjc5MDU3MDN9.j7fhtd0qQP-iD7ns9q_fuG8Arz2aWJyoSvZ8sHRVA8HXOJG3pAQbT5J5F8MLkWIXA9ZuSxHdCWNwQLoRUeKlGURYFFqDHP_yjoWFWWtq5Wb-AnaZg_jBVL8TaOFGY2WByFM8rHsJVopFegwEQsU6bkcwqiFttEKxso-MiSAc5lE9SBgi6Fus2btiYGIFcNrKalFXEWDy6Ah5yVCo3wxkk9dfiPmT6JgLdjFkCc3v7tMCD9CrRHXrmhQvL8aoeyTMzJILURw5rnuy9zAs9ngymtX_iiwes8XpkBeCJbX4totI-EY4myi7L4fc2NgeWT-bvLWo6_sWjXE4BKyewqjtreUJscR9bhJ5Fi7S8nIoGDQbZrwhIgoKM_UI9Waw6kRLwRer_c0QDFY-sMLeGT3HL5vihHRFNXd-cKb-AWplkRiSJrdHXJtuGHLniHRpkK0-A1AFalIzYw4SSykxfck0qsPdf-oFPuawUsKR9lDCcYlyOaDZdQsBNsbjOsp5gGtyCuBwPBS8xz7I6gqLVEfNuzTfDDk8SMw1fN9MQ0NJtZMqMxm-WY_bLjZVkI3gqsvgDS-ADBPC7cymVZGfPUqummDUeG-Ks7SkLaHpfY6i-aZS8KUAY4aN5Do3GWT56aoEM9s1YB_1ZF_YxsBmK_gcX_mmlwUxbvCVpuHJTvKAQzY
 ```
 
-Replace `<access_token>` with the actual access token value obtained in step 1.
+### The Access Token Response
 
-### Error Handling
+| JSON Response Fields | Description | 
+| ---- | ---- |
+| `access_token` | The value of the `access_token` parameter is in JSON Web Token (JWT) format. The access token is valid for 60 minutes. | 
+| `expires_in` | The value of the `expires_in` parameter is always 3600. The value represents the time period during which the access token is valid, in seconds. |
+| token_type | The value of the `token_type` parameter is always **bearer**. | 
 
-If the access token expires or becomes invalid, you'll receive an HTTP `401 Unauthorized` response. In such cases, repeat the authentication flow to obtain a new access token and update your requests with the new token.
+The following is an example of a response in JSON JWT format:
 
-### Security Considerations
+```json
+{"access_token": "eyJraWQiOiJzLlNZU1RFTS4yMDIwXzEiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MDMwMDU5OzA7Mzs3O04iLCJhdWQiOlsiOWE1MDY4YjFjNGU5OGU4Yjg1YzMwMmYyMjg2N2YzNTAyYTBmYzYwNzU4MDQwNzliNzYzZmExYzg2NzJiYTlkNCIsImFwcDoyNzBDNDQ3Ny1DNUY1LTRFMDQtQkNDMS1CMDMzRDk0QTlDMDgiXSwic2NvcGUiOlsicmVzdF93ZWJzZXJ2aWNlcyIsInJlc3RsZXRzIl0sImlzcyI6Imh0dHBzOlwvXC9ydW5ib3guY29ycC5uZXRzdWl0ZS5jb20iLCJvaXQiOjE2Mjc5MDYzMzAsImV4cCI6MTYyNzkwOTkzMCwiaWF0IjoxNjI3OTA2MzMwLCJqdGkiOiJhLmMuZmI3ZDYzN2YtOTdjNC00Nzk0LTkyYWYtZTU2N2ZhYjc1ODRlLjE2Mjc5MDYzMzA1MDMuMTYyNzkwNjMzMDUwMyJ9.QjzADDeU2yN-6j-ol0fApgmleIn17HHD4bi06yBYpEpL5rBSbK3h11-GgU44Kc6ujQQQ3t4yr6IWBrtak5qLPWQmJE5-Ry_IvaxZRmPuB8rxI09_o4uXJE7oxpMreK4snYoIfH1Ph40Fq977MVVz9K-5pCTclOberX9dTTM3O0BnL6QNrf3lv3RA7J5LilceGAm4OV7OOoddn_fB6yeO0ZghVbJbRgI-tChqwdmWY42zhTeHjdG4K6ooA2IVcOm2GUFMhiFT2I00ZLZ-dYBPYkfRDn2Fvbn8V8GN1biQ6_u6j07k0XSq1Mv-WN-saH7rTKaA1gkX4IFwIHzN7eJUcg", "expires_in": "3600", "token_type": "Bearer"}
+```
 
-- Keep your API credentials (client ID, client secret, account credentials) secure and avoid exposing them in client-side applications.
-- Protect the access token by using secure channels (HTTPS) and not including it in publicly accessible code or repositories.
-- Consider using token expiration and refresh mechanisms to ensure the security of your authentication flow.
+When the access token expires, the token endpoint returns an `invalid_grant` error. The application must restart the flow.
+
+### The Request Token Structure
+
+The JWT bearer token for the POST request to the token endpoint in OAuth 2.0 client credentials flow includes three parts: a header, a payload, and a signature.
+
+The token header includes the following parameters:
+
+| Parameter Name | Description |
+| ----- | ---------- |
+| `typ` | The value of the `typ` parameter is always **JWT**. | 
+| `alg` | The value of the `alg` parameter is **PS256**, **PS384**, **PS512**, **ES256**, **ES384**, or **ES512**.<br>The value you choose determines the algorithm used for signing of the token. |
+| `kid` | The value of the `kid` parameter is the value of the Certificate ID generated during the mapping of the application. |
+
+The token payload includes the following parameters:
+
+| Parameter Name | Description | 
+| ---- | --------- | 
+| `iss` | The value of the `iss` parameter is the client ID for the integration. | 
+| `scope` | The value of the `scope` parameter is **restlets**, **rest_webservices**, **suite_analytics**, or all of them, separated by a comma. | 
+| `aud` | The value of the `aud` parameter is the NetSuite token endpoint, `https://<accountID>.suitetalk.api.netsuite.com/services/rest/auth/oauth2/v1/token`. |
+| `exp` | The value of the `exp` parameter represents the number of seconds since January 1, 1970, until the token’s expiration.<br>The value must be less than 60 minutes greater than the value of the `iat` parameter. |
+| `iat` | 
+The value of the `iat` parameter represents when the token was issued. The value of the parameter is in seconds, since January 1, 1970. | 
 
 ### Response Codes
 
