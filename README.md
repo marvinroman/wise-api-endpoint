@@ -8,6 +8,14 @@ You can use the client credentials flow with OAuth 2.0. The client credentials f
 
 The OAuth 2.0 client credentials flow consists of a POST request to the token endpoint and a system response containing an access token.
 
+### Requirements
+
+* Activate **OAuth 2.0** within Netsuite.  
+* Create roles with appropriate permissions for the RESTlet to perform the necessary calls and grant is OAuth permission and add the role to a user.  
+* Create and integration with OAuth 2.0 client (M2M) permissions.
+* Integrator must create a certificate and pass us the public portion this is used to sign the JWT token in the authorization request ([more information](https://229676-sb1.app.netsuite.com/app/help/helpcenter.nl?fid=section_162686838198.html)). `openssl req -x509 -newkey rsa:4096 -sha256 -keyout auth-key.pem -out auth-cert.pem -nodes -days 730.`  
+* Create a new OAuth 2.0 Client Credentials Setup.  
+
 ### POST Request to the Token Endpoint and the Access Token Response
 
 The client credentials flow starts when the application sends a POST request to the token endpoint.
