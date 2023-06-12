@@ -113,7 +113,6 @@ This API endpoint is used to retrieve task information. By making a GET request 
 The response to the API request will be a JSON object.
 
 ### Properties:
-- `shipdate` (string): The date of shipment in the format "YYYY-MM-DD".
 - `entity` (object): Information about the entity associated with the task this wil be an Agency for distributions and Vendor on pickups.
   - `id` (number): The ID of the entity.
   - `name` (string): The name of the entity.
@@ -126,7 +125,6 @@ The response to the API request will be a JSON object.
   - `zip` (string): The ZIP code.
 - `contact` (object): Contact information related to the task.
   - `phone` (string): The phone number.
-  - `email` (string): The email address.
   - `name` (string): The name of the contact.
 - `start` (string): The start time of the task in UTC format.
 - `end` (string): The end time of the task in UTC format.
@@ -153,7 +151,6 @@ GET /tasks?query=tasks
 ### Example Response:
 ```json
 {
-    "shipdate": "2023-06-01",
     "entity": {
         "id": 1234,
         "name": "Local food distributor"
@@ -168,7 +165,6 @@ GET /tasks?query=tasks
     },
     "contact": {
         "phone": "123-123-1234",
-        "email": "user@company.com",
         "name": "Jane Lane"
     },
     "start": "2023-02-04T08:00:00.000Z",
