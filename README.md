@@ -110,6 +110,7 @@ This API endpoint is used to retrieve task information. By making a GET request 
 - `action` (required, string): The action parameter must be set to `tasks`.
 - `date` (optional, string): The date string of the desired delivery date. Formatted as [ISO 8601 string](https://momentjs.com/docs/#/displaying/as-iso-string/). 
 - `warehouse` (optional, string): The warehouse that you are pulling deliveries for. Current valid values are `DC Puerto Rico WH` or `Lorton 2 WH`
+- `type` (optional, string): The type of route. Current valid values are `Delivery` or `Pickup`
 
 ### Response:
 The response to the API request will be a JSON object.
