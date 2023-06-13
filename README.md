@@ -100,14 +100,16 @@ The following response codes may be encountered during the authentication proces
 ### Endpoint
 
 ```
-GET /?query=tasks
+GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1110&deploy=1&query=tasks&date=[date]&warehouse=DC
 ```
 
 ### Description:
 This API endpoint is used to retrieve task information. By making a GET request to this endpoint with the specified action parameter, you will receive a JSON response containing details about the tasks.
 
 ### Parameters:
-- `action` (required, string): The action parameter must be set to "fetchTasks".
+- `action` (required, string): The action parameter must be set to `tasks`.
+- `date` (optional, string): The date string of the desired delivery date. Formatted as [ISO 8601 string](https://momentjs.com/docs/#/displaying/as-iso-string/). 
+- `warehouse` (optional, string): The warehouse that you are pulling deliveries for. Current valid values are `DC Puerto Rico WH` or `Lorton 2 WH`
 
 ### Response:
 The response to the API request will be a JSON object.
@@ -145,53 +147,55 @@ Note: Replace "YYYY-MM-DD" and other placeholder values with the actual data in 
 
 ### Example Request:
 ```
-GET /tasks?query=tasks
+GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1110&deploy=1&query=tasks
 ```
 
 ### Example Response:
 ```json
-{
-    "entity": {
-        "id": 1234,
-        "name": "Local food distributor"
-    },
-    "type": "Delivery",
-    "address": {
-        "addr1": "1234 Main St",
-        "addr2": "",
-        "city": "Main City",
-        "state": "VA",
-        "zip": "12345"
-    },
-    "contact": {
-        "phone": "123-123-1234",
-        "name": "Jane Lane"
-    },
-    "start": "2023-02-04T08:00:00.000Z",
-    "end": "2023-02-04T10:00:00.000Z",
-    "weight": 1100,
-    "transaction": {
-        "id": 123789,
-        "display": "SO12345"
-    },
-    "warehouse": "DC",
-    "memo": "Ship Date: 02/04/2023 8:00 am",
-    "delivery_message": "Please use side door.",
-    "inventory": [
-        {
-            "id": 8,
-            "tracking": "F001115329",
-            "storage_type": "Refrigerated",
-            "weight": 500
+[
+    {
+        "entity": {
+            "id": 1234,
+            "name": "Local food distributor"
         },
-        {
-            "id": 9,
-            "tracking": "F001115330",
-            "storage_type": "Dry",
-            "weight": 600
-        }
-    ]
-}
+        "type": "Delivery",
+        "address": {
+            "addr1": "1234 Main St",
+            "addr2": "",
+            "city": "Main City",
+            "state": "VA",
+            "zip": "12345"
+        },
+        "contact": {
+            "phone": "123-123-1234",
+            "name": "Jane Lane"
+        },
+        "start": "2023-02-04T08:00:00.000Z",
+        "end": "2023-02-04T10:00:00.000Z",
+        "weight": 1100,
+        "transaction": {
+            "id": 123789,
+            "display": "SO12345"
+        },
+        "warehouse": "DC",
+        "memo": "Ship Date: 02/04/2023 8:00 am",
+        "delivery_message": "Please use side door.",
+        "inventory": [
+            {
+                "id": 8,
+                "tracking": "F001115329",
+                "storage_type": "Refrigerated",
+                "weight": 500
+            },
+            {
+                "id": 9,
+                "tracking": "F001115330",
+                "storage_type": "Dry",
+                "weight": 600
+            }
+        ]
+    }
+]
 ```
 
 ### Response Status Codes:
@@ -205,7 +209,7 @@ GET /tasks?query=tasks
 ### Endpoint
 
 ```
-GET /?query=drivers
+GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1110&deploy=1&query=drivers
 ```
 
 ### Description
@@ -227,20 +231,22 @@ The response will be a JSON object with the following properties:
 ### Example Response:
 
 ```json
-{
+[
+    {
     "id": 1234,
     "name": "Rob Bob",
     "available_routes": [
-        "DC",
-        "VA"
-    ]
-}
+            "DC",
+            "VA"
+        ]
+    }
+]
 ```
 
 ### Example Request
 
 ```
-GET /?query=drivers
+GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1110&deploy=1&query=drivers
 ```
 
 ### Response Status Codes
@@ -255,11 +261,8 @@ GET /?query=drivers
 ### Endpoint
 
 ```
-PUT /?inventory={id}
+PUT https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1110&deploy=1
 ```
-
-Replace `{id}` with the identifier of the inventory item that the status is updating.
-
 
 ### Description
 
@@ -269,24 +272,28 @@ Updates an existing delivery record with the provided data.
 
 The request body should be a JSON object with the following properties:
 
-- `driver` (number): The identifier of the driver responsible for the delivery.
-- `departure` (string): The departure timestamp in ISO 8601 format.
-- `arrival` (string): The arrival timestamp in ISO 8601 format.
+- `id` (number): The identifier of the inventory pallet sent in the `inventory` array of the order.
+- `driver` (number): The netsuite identifier of the driver responsible for the delivery.
+- `departure` (string): The departure timestamp in [ISO 8601 string](https://momentjs.com/docs/#/displaying/as-iso-string/). 
+- `arrival` (string): The arrival timestamp in [ISO 8601 string](https://momentjs.com/docs/#/displaying/as-iso-string/). 
 - `signature` (string): The URL of the signature image for the delivery.
 - `image` (string): The URL of an image related to the delivery.
-- `status` (number): The status of the delivery (0: Unassigned, 1: Assigned, 2: In Progress, 3: Completed, 4: Failed).
+- `status` (number): The status of the delivery (`0`: Unassigned, `1`: Assigned, `2`: In Progress, `3`: Completed, `4`: Rejected).
 
 ### Example Request Body:
 
 ```json
-{
-    "driver": 5678,
-    "departure": "2023-02-04T10:00:00.000Z",
-    "arrival": "2023-02-04T12:00:00.000Z",
-    "signature": "https://s3.amazon.com/567zs567",
-    "image": "https://s3.amazon.com/567zs568",
-    "status": 2
-}
+[
+    {
+        "id": 9,
+        "driver": 5678,
+        "departure": "2023-02-04T10:00:00.000Z",
+        "arrival": "2023-02-04T12:00:00.000Z",
+        "signature": "https://s3.amazon.com/567zs567",
+        "image": "https://s3.amazon.com/567zs568",
+        "status": 2
+    }
+]
 ```
 
 ### Response Status Codes
