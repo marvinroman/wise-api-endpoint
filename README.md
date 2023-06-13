@@ -179,13 +179,15 @@ GET /tasks?query=tasks
     "delivery_message": "Please use side door.",
     "inventory": [
         {
-            "tracking": "123B-984U-E573",
-            "storage_type": "refrigerated",
+            "id": 8,
+            "tracking": "F001115329",
+            "storage_type": "Refrigerated",
             "weight": 500
         },
         {
-            "tracking": "123B-984U-E574",
-            "storage_type": "dry",
+            "id": 9,
+            "tracking": "F001115330",
+            "storage_type": "Dry",
             "weight": 600
         }
     ]
