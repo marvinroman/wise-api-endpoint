@@ -108,7 +108,7 @@ This API endpoint is used to retrieve task information. By making a GET request 
 
 ### Parameters:
 - `action` (required, string): The action parameter must be set to `tasks`.
-- `date` (optional, string): The date string of the desired delivery date. Formatted as [ISO 8601 string](https://momentjs.com/docs/#/displaying/as-iso-string/). 
+- `date` (optional, string): The date string of the desired delivery date. Formatted as ["M/D/YYYY"](https://momentjs.com/docs/#/displaying/format/). 
 - `warehouse` (optional, string): The warehouse that you are pulling deliveries for. Current valid values are `CSFP WH`, `DC Puerto Rico WH` or `Lorton 2 WH`
 - `type` (optional, string): The type of route. Current valid values are `Delivery` or `Pickup`
 
@@ -129,8 +129,8 @@ The response to the API request will be a JSON object.
 - `contact` (object): Contact information related to the task.
   - `phone` (string): The phone number.
   - `name` (string): The name of the contact.
-- `start` (string): The start time of the task in UTC format.
-- `end` (string): The end time of the task in UTC format.
+- `start` (string): The start time of the task in format ["M/D/YYYY hh:mm a"](https://momentjs.com/docs/#/displaying/format/).
+- `end` (string): The end time of the task in format ["M/D/YYYY hh:mm a"](https://momentjs.com/docs/#/displaying/format/).
 - `weight` (number): The weight associated with the task in lbs.
 - `transaction` (object): Information about the transaction related to the task.
   - `id` (number): The ID of the transaction.
@@ -172,8 +172,8 @@ GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?scr
             "phone": "123-123-1234",
             "name": "Jane Lane"
         },
-        "start": "2023-02-04T08:00:00.000Z",
-        "end": "2023-02-04T10:00:00.000Z",
+        "start": "6/10/2023 08:00 am",
+        "end": "6/10/2023 10:00 am",
         "weight": 1100,
         "transaction": {
             "id": 123789,
@@ -277,8 +277,8 @@ The request body should be a JSON object with the following properties:
 
 - `id` (number): The identifier of the inventory pallet sent in the `inventory` array of the order.
 - `driver` (number): The netsuite identifier of the driver responsible for the delivery.
-- `departure` (string): The departure timestamp in [ISO 8601 string](https://momentjs.com/docs/#/displaying/as-iso-string/). 
-- `arrival` (string): The arrival timestamp in [ISO 8601 string](https://momentjs.com/docs/#/displaying/as-iso-string/). 
+- `departure` (string): The departure timestamp in format ["M/D/YYYY hh:mm a"](https://momentjs.com/docs/#/displaying/format/).
+- `arrival` (string): The arrival timestamp in format ["M/D/YYYY hh:mm a"](https://momentjs.com/docs/#/displaying/format/).
 - `signature` (string): The URL of the signature image for the delivery.
 - `image` (string): The URL of an image related to the delivery.
 - `status` (number): The status of the delivery (`0`: Unassigned, `1`: Assigned, `2`: In Progress, `3`: Completed, `4`: Rejected).
@@ -290,8 +290,8 @@ The request body should be a JSON object with the following properties:
     {
         "id": 9,
         "driver": 5678,
-        "departure": "2023-02-04T10:00:00.000Z",
-        "arrival": "2023-02-04T12:00:00.000Z",
+        "departure": "2/4/2023 10:00 am",
+        "arrival": "2/4/2023 12:00 pm",
         "signature": "https://s3.amazon.com/567zs567",
         "image": "https://s3.amazon.com/567zs568",
         "status": 2
