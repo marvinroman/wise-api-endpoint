@@ -138,6 +138,7 @@ The response to the API request will be a JSON object.
 - `warehouse` (string): String representation of warehouse the route is related to.  
 - `memo` (string): A memo associated with the task.
 - `delivery_message` (string): A delivery message for the task.
+- `route` (numeric): ID of the route to use.
 - `inventory` (array): An array of inventory items associated with the task.
   - `id` (number): The internal id of the record that tracks pallets.  
   - `tracking` (string): The tracking number of the inventory item.
@@ -181,6 +182,7 @@ GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?scr
         "warehouse": "DC",
         "memo": "Ship Date: 02/04/2023 8:00 am",
         "delivery_message": "Please use side door.",
+        "route": 1234,
         "inventory": [
             {
                 "id": 8,
