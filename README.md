@@ -122,7 +122,7 @@ The response to the API request will be a JSON object.
 - `type` (string): The type of route, Delivery or Pickup.  
 - `address` (object): The address associated with the task.
   - `addr1` (string): Address line 1.
-  - `addr2` (string): Address line 2.
+  - `addr2` (string|null): Address line 2.
   - `city` (string): The city.
   - `state` (string): The state.
   - `zip` (string): The ZIP code.
@@ -136,10 +136,10 @@ The response to the API request will be a JSON object.
   - `id` (number): The ID of the transaction.
   - `display` (string): A display string for the transaction.
 - `warehouse` (string): String representation of warehouse the route is related to.  
-- `memo` (string): A memo associated with the task.
-- `delivery_message` (string): A delivery message for the task.
-- `route` (numeric): ID of the route to use.
-- `inventory` (array): An array of inventory items associated with the task.
+- `memo` (string|null): A memo associated with the task.
+- `delivery_message` (string|null): A delivery message for the task.
+- `route` (numeric|null): ID of the route to use.
+- `inventory` (array): An array of inventory items associated with the task. Will be empty for type `pickup`. 
   - `id` (number): The internal id of the record that tracks pallets.  
   - `tracking` (string): The tracking number of the inventory item.
   - `storage_type` (string): The type of storage for the inventory item.
