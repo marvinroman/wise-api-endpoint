@@ -203,7 +203,7 @@ GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?scr
 
 ### Response Status Codes:
 - 200 OK: The request was successful, and the task information is included in the response.
-- 400 Bad Request: The request is missing the required parameters or contains invalid data.
+- 400 Bad Request: The request is missing the required parameters, contains invalid data, or there is a script error.
 - 500 Internal Server Error: An error occurred on the server while processing the request.
 
 
@@ -229,6 +229,7 @@ The response will be a JSON object with the following properties:
 
 - `id` (number): The internalid of the driver's employee record.
 - `name` (string): The name of the driver.
+- `termination_date` (string|null): Termination date of the driver should be removed from routing if it is not empty.
 - `available_routes` (array): An array of available routes for the driver.
 
 ### Example Response:
@@ -236,11 +237,13 @@ The response will be a JSON object with the following properties:
 ```json
 [
     {
-    "id": 1234,
-    "name": "Rob Bob",
-    "available_routes": [
-            "DC",
-            "VA"
+        "id": 1234,
+        "name": "Rob Bob",
+        "termination_date": "5/28/2021",
+        "available_routes": [
+            "CSFP WH",
+            "DC Puerto Rico WH",
+            "Lorton 2 WH"
         ]
     }
 ]
@@ -275,13 +278,14 @@ Updates an existing delivery record with the provided data.
 
 The request body should be a JSON object with the following properties:
 
-- `id` (number): The identifier of the inventory pallet sent in the `inventory` array of the order.
-- `driver` (number): The netsuite identifier of the driver responsible for the delivery.
+- `id` (number|null): The identifier of the inventory pallet sent in the `inventory` array of `delivery` type orders. Don't include for `pickup` type orders.  
+- `transaction` (number|null): The `transaction`.`id` of for `pickup` type orders. Don't include for `delivery` type orders.
+- `driver` (number): The netsuite internalid of the employee record for the driver responsible for the delivery.
 - `departure` (string): The departure timestamp in format ["M/D/YYYY hh:mm a"](https://momentjs.com/docs/#/displaying/format/).
 - `arrival` (string): The arrival timestamp in format ["M/D/YYYY hh:mm a"](https://momentjs.com/docs/#/displaying/format/).
 - `signature` (string): The URL of the signature image for the delivery.
 - `image` (string): The URL of an image related to the delivery.
-- `status` (number): The status of the delivery (`0`: Unassigned, `1`: Assigned, `2`: In Progress, `3`: Completed, `4`: Rejected).
+- `status` (number): The status of the delivery (`1`: Assigned, `2`: In Progress, `3`: Completed, `4`: Rejected).
 
 ### Example Request Body:
 
@@ -289,12 +293,13 @@ The request body should be a JSON object with the following properties:
 [
     {
         "id": 9,
+        "transaction": 12345,
         "driver": 5678,
         "departure": "2/4/2023 10:00 am",
         "arrival": "2/4/2023 12:00 pm",
         "signature": "https://s3.amazon.com/567zs567",
         "image": "https://s3.amazon.com/567zs568",
-        "status": 2
+        "status": 3
     }
 ]
 ```
