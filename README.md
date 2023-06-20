@@ -261,6 +261,40 @@ GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?scr
 - 400 Bad Request: The request is missing the required query parameter or contains invalid data.
 - 500 Internal Server Error: An error occurred on the server while processing the request.
 
+## GET Method (query=calculateDaysFromDate)
+
+### Description
+
+Returns a date that is `n` business days from the given `date`.
+
+### Parameters
+
+- `date` (date|optional): Specifies the starting date in the format ["YYYY-MM-DD"](https://momentjs.com/docs/#/displaying/format/). If not provided, the current date is used.
+- `days` (number|optional): Specifies the number of days to calculate. Default is 3.
+- `exclude_holidays` (boolean|optional): Specifies whether to exclude holidays from day calculations. Valid values are "true" or "false". Default is "true".
+- `weekend_days` (string|optional): Specifies the weekend days as comma-separated values. Default is "0,6" (Saturday and Sunday).
+
+### Response
+
+The API returns the date that is `n` days from `date`.
+
+### Example Response:
+
+```
+2023-06-27
+```
+
+### Example Request
+
+```
+GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1110&deploy=1&query=calculateDaysFromDate
+```
+
+### Response Status Codes
+
+- 200 OK: The request was successful, and the drivers matching the query parameter are included in the response.
+- 400 Bad Request: The request is missing the required query parameter or contains invalid data.
+- 500 Internal Server Error: An error occurred on the server while processing the request.
 
 ## PUT
 
