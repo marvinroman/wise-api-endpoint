@@ -100,7 +100,7 @@ The following response codes may be encountered during the authentication proces
 ### Endpoint
 
 ```
-GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1110&deploy=1&query=tasks&date=[date]&warehouse=DC
+GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1110&deploy=1&query=tasks&date=[date]&warehouse=DCP Warehouse
 ```
 
 ### Description:
@@ -109,7 +109,7 @@ This API endpoint is used to retrieve task information. By making a GET request 
 ### Parameters:
 - `action` (required, string): The action parameter must be set to `tasks`.
 - `date` (optional, string): The date string of the desired delivery date. Formatted as ["M/D/YYYY"](https://momentjs.com/docs/#/displaying/format/). 
-- `warehouse` (optional, string): The warehouse that you are pulling deliveries for. Current valid values are `CSFP WH`, `DC Puerto Rico WH` or `Lorton 2 WH`
+- `warehouse` (optional, string): The warehouse that you are pulling deliveries for. Current valid values are `DCP Warehouse` or `LORT Warehouse`  
 - `type` (optional, string): The type of route. Current valid values are `Delivery` or `Pickup`
 
 ### Response:
@@ -135,7 +135,7 @@ The response to the API request will be a JSON object.
 - `transaction` (object): Information about the transaction related to the task.
   - `id` (number): The ID of the transaction.
   - `display` (string): A display string for the transaction.
-- `warehouse` (string): String representation of warehouse the route is related to.  
+- `warehouse` (string): String representation of appointment area the route is related to.  
 - `memo` (string|null): A memo associated with the task.
 - `delivery_message` (string|null): A delivery message for the task.
 - `route` (numeric|null): ID of the route to use.
@@ -179,7 +179,7 @@ GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?scr
             "id": 123789,
             "display": "SO12345"
         },
-        "warehouse": "DC",
+        "warehouse": "DCP Warehouse",
         "memo": "Ship Date: 02/04/2023 8:00 am",
         "delivery_message": "Please use side door.",
         "route": 1234,
