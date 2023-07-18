@@ -296,6 +296,53 @@ GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?scr
 - 400 Bad Request: The request is missing the required query parameter or contains invalid data.
 - 500 Internal Server Error: An error occurred on the server while processing the request.
 
+
+## POST
+
+### Endpoint
+
+```
+POST https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1110&deploy=1
+```
+
+### Description
+
+Creates new packing pallets with items.  
+
+### Request Body
+
+The request body should be a JSON object with the following properties:
+
+- `order_id` (number): The identifier for the order.  
+- `tracking_number` (string): The pallets tracking number or barcode.
+- `shipmethod` (string): The shipping method for the order in text form.
+- `driver_notes` (string): Driver's notes, may be up to 4000 characters.  
+- `items` (array): Items included on the pallet.
+  - `item` (number): The identifier for the item.
+  - `quantity` (number): Quantity of items on the pallet.
+
+### Example Request Body:
+
+```json
+[
+    {
+        "order_id": "6367174",
+        "tracking_number": "F001139254",
+        "shipmethod": "3 - DC - DRIVER",
+        "items": [
+            {
+                "item": "2654",
+                "quantity": "20.00000"
+            },
+            {
+                "item": "4520",
+                "quantity": "1.00000"
+            }
+        ]
+    }
+]
+```
+
 ## PUT
 
 ### Endpoint
@@ -315,6 +362,7 @@ The request body should be a JSON object with the following properties:
 - `id` (number|null): The identifier of the inventory pallet sent in the `inventory` array of `delivery` type orders. Don't include for `pickup` type orders.  
 - `transaction` (number|null): The `transaction`.`id` of for `pickup` type orders. Don't include for `delivery` type orders.
 - `driver` (number): The netsuite internalid of the employee record for the driver responsible for the delivery.
+- `driver_notes` (string): Driver's notes, may be up to 4000 characters.  
 - `departure` (string): The departure timestamp in format ["M/D/YYYY hh:mm a"](https://momentjs.com/docs/#/displaying/format/).
 - `arrival` (string): The arrival timestamp in format ["M/D/YYYY hh:mm a"](https://momentjs.com/docs/#/displaying/format/).
 - `signature` (string): The URL of the signature image for the delivery.
