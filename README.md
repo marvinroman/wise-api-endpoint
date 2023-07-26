@@ -366,6 +366,7 @@ The request body should be a JSON object with the following properties:
 - `departure` (string): The departure timestamp in format ["M/D/YYYY hh:mm a"](https://momentjs.com/docs/#/displaying/format/).
 - `arrival` (string): The arrival timestamp in format ["M/D/YYYY hh:mm a"](https://momentjs.com/docs/#/displaying/format/).
 - `signature` (string): The URL of the signature image for the delivery.
+- `signature_name` (string): The typed name of the person signing for the pallet.  
 - `image` (string): The URL of an image related to the delivery.
 - `status` (number): The status of the delivery (`1`: Assigned, `2`: In Progress, `3`: Completed, `4`: Rejected).
 
@@ -380,6 +381,7 @@ The request body should be a JSON object with the following properties:
         "departure": "2/4/2023 10:00 am",
         "arrival": "2/4/2023 12:00 pm",
         "signature": "https://s3.amazon.com/567zs567",
+        "signature_name": "Abigail Quinn",
         "image": "https://s3.amazon.com/567zs568",
         "status": 3
     }
