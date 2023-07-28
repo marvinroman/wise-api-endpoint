@@ -369,6 +369,23 @@ The request body should be a JSON object with the following properties:
 - `signature_name` (string): The typed name of the person signing for the pallet.  
 - `image` (string): The URL of an image related to the delivery.
 - `status` (number): The status of the delivery (`1`: Assigned, `2`: In Progress, `3`: Completed, `4`: Rejected).
+- `reject_reason` (number): If the satus of the pallet is rejected reason code should be included  
+  - `1`: Bad Product: Damaged in Transit  
+  - `2`: Bad Product: Quality  
+  - `3`: Cancelled due to unforeseen circumstances (not weather related)  
+  - `4`: Cancelled Due to Weather  
+  - `5`: Could not contact customer at time of delivery  
+  - `6`: Emergency  
+  - `7`: Lack of staffing to accept delivery  
+  - `8`: No Room to Store  
+  - `9`: Order didn't arrive at the delivery window given  
+  - `10`: Order Not Picked Up (for Pick Ups only)  
+  - `11`: Specific product not ordered by agency  
+  - `12`: Wasn't expecting a shipment  
+  - `13`: Grant Expired/Lack of Funding  
+  - `14`: Product not distributed - CSFP Only  
+  - `15`: Left by Driver in the Warehouse  
+  - `16`: Unknown - Found in Warehouse  
 
 ### Example Request Body:
 
@@ -383,7 +400,8 @@ The request body should be a JSON object with the following properties:
         "signature": "https://s3.amazon.com/567zs567",
         "signature_name": "Abigail Quinn",
         "image": "https://s3.amazon.com/567zs568",
-        "status": 3
+        "status": 3,
+        "reject_reason": 1
     }
 ]
 ```
