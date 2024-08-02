@@ -109,7 +109,7 @@ This API endpoint is used to retrieve task information. By making a GET request 
 ### Parameters:
 - `action` (required, string): The action parameter must be set to `tasks`.
 - `date` (optional, string): The date string of the desired delivery date. Formatted as ["M/D/YYYY"](https://momentjs.com/docs/#/displaying/format/). 
-- `warehouse` (optional, string): The warehouse that you are pulling deliveries for. Current valid values are `DCP Warehouse` or `LORT Warehouse`  
+- `warehouse` (optional, string): The warehouse that you are pulling deliveries for. Current valid values are `DCP Warehouse`, `NOVA Warehouse`, and `LORT Warehouse`  
 - `type` (optional, string): The type of route. Current valid values are `Delivery` or `Pickup`
 
 ### Response:
