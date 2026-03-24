@@ -144,6 +144,7 @@ The response to the API request will be a JSON object.
   - `tracking` (string): The tracking number of the inventory item.
   - `storage_type` (string): The type of storage for the inventory item.
   - `weight` (number): The weight of the inventory item in lbs.
+  - `dispatch_location` (string|null): The dispatch bay location for the pallet.
 
 Note: Replace "YYYY-MM-DD" and other placeholder values with the actual data in the response.
 
@@ -188,13 +189,15 @@ GET https://229676-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?scr
                 "id": 8,
                 "tracking": "F001115329",
                 "storage_type": "Refrigerated",
-                "weight": 500
+                "weight": 500,
+                "dispatch_location": "Bay 1"
             },
             {
                 "id": 9,
                 "tracking": "F001115330",
                 "storage_type": "Dry",
-                "weight": 600
+                "weight": 600,
+                "dispatch_location": "Bay 2"
             }
         ]
     }
